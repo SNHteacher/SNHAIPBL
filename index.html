@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연구 참여 동의서</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: #f4f4f4; color: #222; font-size: 15px; line-height: 1.7; }
+  .wrapper { max-width: 720px; margin: 40px auto; background: #fff; border-radius: 12px; border: 1px solid #e0e0e0; padding: 40px; }
+  h1 { font-size: 22px; font-weight: 600; text-align: center; margin-bottom: 8px; }
+  .subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 32px; }
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 15px; font-weight: 600; color: #185FA5; border-left: 3px solid #185FA5; padding-left: 10px; margin-bottom: 12px; }
+  .section p { font-size: 14px; color: #444; line-height: 1.8; }
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .info-item label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; }
+  .info-item input { width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; font-size: 14px; }
+  .info-item input:focus { outline: none; border-color: #185FA5; }
+  .agree-box { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px 20px; }
+  .agree-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .agree-item:last-child { margin-bottom: 0; }
+  .agree-item input[type="checkbox"] { width: 17px; height: 17px; margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+  .agree-item label { font-size: 14px; color: #333; cursor: pointer; }
+  .signature-area { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+  canvas { display: block; width: 100%; height: 180px; cursor: crosshair; background: #fafafa; }
+  .sig-controls { display: flex; justify-content: flex-end; padding: 8px 12px; border-top: 1px solid #e0e0e0; gap: 8px; }
+  .btn-clear { background: none; border: 1px solid #ccc; border-radius: 6px; padding: 5px 14px; font-size: 13px; cursor: pointer; color: #555; }
+  .btn-clear:hover { background: #f0f0f0; }
+  .submit-btn { width: 100%; padding: 14px; background: #185FA5; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+  .submit-btn:hover { background: #0C447C; }
+  .submit-btn:disabled { background: #aaa; cursor: not-allowed; }
+  .success { display: none; text-align: center; padding: 32px; }
+  .success .icon { font-size: 48px; margin-bottom: 12px; }
+  .success h2 { font-size: 20px; color: #185FA5; margin-bottom: 8px; }
+  .success p { color: #555; font-size: 14px; }
+  .error-msg { color: #c0392b; font-size: 13px; margin-top: 6px; display: none; }
+  @media (max-width: 600px) {
+    .wrapper { margin: 0; border-radius: 0; padding: 24px 20px; }
+    .info-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div id="form-area">
+    <h1>연구 참여 동의서</h1>
+    <p class="subtitle">생성형 AI 활용 PBL 수업 연구</p>
+
+    <div class="section">
+      <div class="section-title">학생 정보</div>
+      <div class="info-grid">
+        <div class="info-item">
+          <label for="grade">학년 · 반</label>
+          <input type="text" id="grade" placeholder="예) 2학년 3반">
+        </div>
+        <div class="info-item">
+          <label for="number">번호</label>
+          <input type="text" id="number" placeholder="예) 15">
+        </div>
+        <div class="info-item" style="grid-column: 1 / -1;">
+          <label for="name">이름</label>
+          <input type="text" id="name" placeholder="이름을 입력하세요">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">동의 항목</div>
+      <div class="agree-box">
+        <div class="agree-item">
+          <input type="checkbox" id="agree1">
+          <label for="agree1">연구의 목적과 절차에 대한 설명을 충분히 이해하였습니다.</label>
+        </div>
+        <div class="agree-item">
+          <input type="checkbox" id="agree2">
+          <label for="agree2">수업 중 생성형 AI를 활용한 개별 맞춤형 문제 제공에 동의합니다.</label>
+        </div>
+        <div class="agree-item">
+          <input type="checkbox" id="agree3">
+          <label for="agree3">연구 목적의 설문 및 평가 참여에 동의합니다.</label>
+        </div>
+        <div class="agree-item">
+          <input type="checkbox" id="agree4">
+          <label for="agree4">수집된 데이터가 익명으로 연구에 활용됨에 동의합니다.</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">전자서명</div>
+      <p style="font-size:13px; color:#666; margin-bottom:8px;">아래 공간에 마우스 또는 터치로 서명해 주세요.</p>
+      <div class="signature-area">
+        <canvas id="sig-canvas"></canvas>
+        <div class="sig-controls">
+          <button class="btn-clear" onclick="clearSignature()">서명 지우기</button>
+        </div>
+      </div>
+      <p class="error-msg" id="err-sig">서명을 해주세요.</p>
+    </div>
+
+    <p style="font-size:12px; color:#888; margin-bottom:16px; text-align:center;">
+      위 내용을 모두 읽고 자발적으로 동의하여 서명합니다. &nbsp;|&nbsp; 제출일: <span id="today"></span>
+    </p>
+    <p class="error-msg" id="err-info" style="text-align:center; margin-bottom:8px;">모든 항목을 입력하고 동의 항목을 체크해 주세요.</p>
+    <button class="submit-btn" onclick="submitForm()">동의서 제출하기</button>
+  </div>
+
+  <div class="success" id="success-area">
+    <div class="icon">✅</div>
+    <h2>동의서가 제출되었습니다.</h2>
+    <p>참여해 주셔서 감사합니다.<br>담당 선생님께 접수가 완료되었습니다.</p>
+  </div>
+</div>
+
+<script>
+// ⚠️ 아래 URL을 Apps Script 배포 후 받은 웹앱 URL로 교체하세요
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJrt3qu2WTGWdQ5LYOK_EOGiX8Oi77ZSyZNa6Yl4VV0Ik5K30AoRLZWqZgbk_RW6sr/exec';
+
+const canvas = document.getElementById('sig-canvas');
+const ctx = canvas.getContext('2d');
+let drawing = false;
+let hasSigned = false;
+
+function resizeCanvas() {
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  canvas.width = rect.width * ratio;
+  canvas.height = 180 * ratio;
+  canvas.style.height = '180px';
+  ctx.scale(ratio, ratio);
+  ctx.strokeStyle = '#1a1a2e';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  if (e.touches) {
+    return { x: (e.touches[0].clientX - rect.left), y: (e.touches[0].clientY - rect.top) };
+  }
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+
+canvas.addEventListener('mousedown', e => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSigned = true; });
+canvas.addEventListener('mouseup', () => drawing = false);
+canvas.addEventListener('mouseleave', () => drawing = false);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSigned = true; }, { passive: false });
+canvas.addEventListener('touchend', () => drawing = false);
+
+function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); hasSigned = false; }
+
+document.getElementById('today').textContent = new Date().toLocaleDateString('ko-KR');
+
+function submitForm() {
+  const grade = document.getElementById('grade').value.trim();
+  const number = document.getElementById('number').value.trim();
+  const name = document.getElementById('name').value.trim();
+  const checks = ['agree1','agree2','agree3','agree4'].every(id => document.getElementById(id).checked);
+
+  document.getElementById('err-info').style.display = 'none';
+  document.getElementById('err-sig').style.display = 'none';
+
+  if (!grade || !number || !name || !checks) {
+    document.getElementById('err-info').style.display = 'block';
+    return;
+  }
+  if (!hasSigned) {
+    document.getElementById('err-sig').style.display = 'block';
+    return;
+  }
+
+  const signatureData = canvas.toDataURL('image/png');
+  const submitBtn = document.querySelector('.submit-btn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = '제출 중...';
+
+  const payload = {
+    grade, number, name,
+    date: new Date().toLocaleDateString('ko-KR'),
+    signature: signatureData
+  };
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    document.getElementById('form-area').style.display = 'none';
+    document.getElementById('success-area').style.display = 'block';
+  }).catch(err => {
+    alert('제출 중 오류가 발생했습니다. 다시 시도해 주세요.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = '동의서 제출하기';
+  });
+}
+</script>
+</body>
+</html>
