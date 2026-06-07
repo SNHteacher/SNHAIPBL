@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Water Festival 참가 동의서 | 송내고등학교</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Black+Han+Sans&display=swap');
+
+  :root {
+    --blue-deep: #0a3d6b;
+    --blue-mid: #1565c0;
+    --blue-bright: #1e88e5;
+    --blue-light: #bbdefb;
+    --blue-pale: #e3f2fd;
+    --accent: #00b0ff;
+    --white: #ffffff;
+    --gray-100: #f5f5f5;
+    --gray-200: #eeeeee;
+    --gray-400: #bdbdbd;
+    --gray-600: #757575;
+    --gray-800: #424242;
+    --text: #1a1a2e;
+    --success: #00897b;
+    --error: #e53935;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(10,61,107,0.10);
+    --shadow-card: 0 2px 12px rgba(10,61,107,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: linear-gradient(160deg, #e3f2fd 0%, #ffffff 60%, #e0f7fa 100%);
+    min-height: 100vh;
+    color: var(--text);
+    padding: 0 0 60px;
+  }
+
+  /* ── 헤더 ── */
+  .header {
+    background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 100%);
+    padding: 36px 24px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(0,176,255,0.18) 0%, transparent 60%);
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    padding: 4px 16px;
+    font-size: 12px;
+    color: var(--blue-light);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(26px, 6vw, 38px);
+    color: var(--white);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    position: relative;
+  }
+  .header h1 span {
+    color: var(--accent);
+  }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    position: relative;
+  }
+  .drop-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: block;
+    filter: drop-shadow(0 2px 8px rgba(0,176,255,0.4));
+  }
+
+  /* ── 메인 ── */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* ── 카드 ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    padding: 28px 24px;
+    margin-top: 20px;
+    border: 1px solid rgba(10,61,107,0.07);
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--blue-deep);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 18px;
+    background: var(--blue-bright);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── 행사 안내 박스 ── */
+  .info-box {
+    background: var(--blue-pale);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    border-left: 4px solid var(--blue-bright);
+  }
+  .info-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-800);
+    padding: 5px 0;
+  }
+  .info-label {
+    font-weight: 600;
+    color: var(--blue-mid);
+    flex-shrink: 0;
+    min-width: 54px;
+  }
+
+  /* ── 안전 안내 ── */
+  .safety-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .safety-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-800);
+  }
+  .safety-list li::before {
+    content: '✔';
+    color: var(--blue-bright);
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── 동의 체크박스 ── */
+  .agree-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .agree-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .agree-item input[type="checkbox"] {
+    display: none;
+  }
+  .agree-box {
+    width: 22px; height: 22px;
+    border: 2px solid var(--gray-400);
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.18s;
+    margin-top: 1px;
+    background: var(--white);
+  }
+  .agree-item input:checked + .agree-box {
+    background: var(--blue-bright);
+    border-color: var(--blue-bright);
+  }
+  .agree-item input:checked + .agree-box::after {
+    content: '✓';
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .agree-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-800);
+  }
+  .agree-text strong {
+    color: var(--blue-deep);
+  }
+
+  .agree-all-wrapper {
+    background: var(--blue-pale);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .agree-all-wrapper .agree-text {
+    font-weight: 700;
+    color: var(--blue-deep);
+    font-size: 15px;
+  }
+
+  /* ── 학생 정보 입력 ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue-mid);
+  }
+  .form-input {
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 11px 14px;
+    font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text);
+    background: var(--gray-100);
+    transition: border-color 0.18s, background 0.18s;
+    outline: none;
+    width: 100%;
+  }
+  .form-input:focus {
+    border-color: var(--blue-bright);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(30,136,229,0.12);
+  }
+
+  /* ── 서명 패드 ── */
+  .sig-area {
+    border: 2px dashed var(--blue-light);
+    border-radius: var(--radius-sm);
+    background: #fafcff;
+    position: relative;
+    overflow: hidden;
+  }
+  #sig-canvas {
+    display: block;
+    width: 100%;
+    height: 180px;
+    cursor: crosshair;
+    touch-action: none;
+  }
+  .sig-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-400);
+    font-size: 13px;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .sig-placeholder .icon { font-size: 28px; }
+  .sig-clear-btn {
+    position: absolute;
+    top: 8px; right: 10px;
+    background: rgba(10,61,107,0.08);
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--blue-mid);
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: background 0.15s;
+  }
+  .sig-clear-btn:hover { background: rgba(10,61,107,0.15); }
+
+  /* ── 오류 메시지 ── */
+  .error-msg {
+    display: none;
+    color: var(--error);
+    font-size: 13px;
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #fff5f5;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--error);
+  }
+
+  /* ── 제출 버튼 ── */
+  .submit-btn {
+    width: 100%;
+    padding: 17px;
+    background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    margin-top: 24px;
+    box-shadow: 0 4px 16px rgba(21,101,192,0.35);
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: -0.01em;
+  }
+  .submit-btn:hover:not(:disabled) {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ── 완료 화면 ── */
+  #success-area {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .success-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    display: block;
+    animation: pop 0.5s cubic-bezier(.36,.07,.19,.97);
+  }
+  @keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .success-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 26px;
+    color: var(--blue-deep);
+    margin-bottom: 12px;
+  }
+  .success-desc {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.8;
+  }
+  .success-desc strong {
+    color: var(--blue-bright);
+  }
+
+  /* ── 반응형 ── */
+  @media (max-width: 480px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    .card { padding: 22px 16px; }
+    .header { padding: 28px 16px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="drop-icon">💧</span>
+  <div class="header-badge">송내고등학교 · 2026학년도</div>
+  <h1>생명존중 및 폭력예방 캠페인<br><span>Water Festival</span></h1>
+  <p class="header-sub">행사 참가 동의서</p>
+</div>
+
+<div class="container">
+
+  <!-- 완료 화면 -->
+  <div id="success-area">
+    <span class="success-icon">✅</span>
+    <div class="success-title">동의서 제출 완료!</div>
+    <p class="success-desc">
+      Water Festival 참가 신청이 접수되었습니다.<br>
+      <strong>6월 11일(목) 사전 안전 교육</strong>에 참석 후<br>
+      <strong>6월 18일(목) 12:55</strong>에 농구장으로 오세요! 🎉
+    </p>
+  </div>
+
+  <!-- 폼 영역 -->
+  <div id="form-area">
+
+    <!-- 행사 안내 -->
+    <div class="card">
+      <div class="card-title">행사 안내</div>
+      <div class="info-box">
+        <div class="info-row"><span class="info-label">일시</span><span>2026년 6월 18일(목) 12:55 ~ 13:55 (중식시간)</span></div>
+        <div class="info-row"><span class="info-label">장소</span><span>학교 농구장</span></div>
+        <div class="info-row"><span class="info-label">대상</span><span>선착순 200명 (사전 안전 교육 이수 후 참가)</span></div>
+        <div class="info-row"><span class="info-label">내용</span><span>서바이벌 O/X 퀴즈 + 물총 이벤트, 슬러쉬 증정</span></div>
+        <div class="info-row"><span class="info-label">주최</span><span>Wee클래스 · 학생생활안전부 · 이너피스 · 아이기스</span></div>
+      </div>
+    </div>
+
+    <!-- 안전 안내 -->
+    <div class="card">
+      <div class="card-title">안전 안내사항</div>
+      <ul class="safety-list">
+        <li>물총은 허공 또는 신체(얼굴·머리 제외)를 향해 간접적으로 사용됩니다.</li>
+        <li>참가자는 우비를 지급받아 착용한 상태로 참가합니다.</li>
+        <li>행사 중 신체 접촉이나 과격한 행동은 금지됩니다.</li>
+        <li>건강 상태에 따라 참가를 자율적으로 조절할 수 있습니다.</li>
+        <li>행사 진행 중 발생한 부상에 대해 학교는 최대한 신속히 조치하며, 고의·과실 없이 발생한 경미한 사고에 대해서는 참가자 본인이 감수합니다.</li>
+        <li>담당 교사의 안내에 따라 안전하게 참여해 주세요.</li>
+      </ul>
+    </div>
+
+    <!-- 동의 항목 -->
+    <div class="card">
+      <div class="card-title">동의 항목</div>
+
+      <div class="agree-all-wrapper">
+        <label class="agree-item">
+          <input type="checkbox" id="agree-all">
+          <span class="agree-box"></span>
+          <span class="agree-text">아래 모든 항목에 동의합니다.</span>
+        </label>
+      </div>
+
+      <div class="agree-list">
+        <label class="agree-item">
+          <input type="checkbox" class="agree-check" id="agree1">
+          <span class="agree-box"></span>
+          <span class="agree-text">본인은 위 <strong>행사 안내사항 및 안전 안내사항</strong>을 충분히 읽고 이해하였습니다.</span>
+        </label>
+        <label class="agree-item">
+          <input type="checkbox" class="agree-check" id="agree2">
+          <span class="agree-box"></span>
+          <span class="agree-text"><strong>물총 이벤트</strong>로 인해 의복 등이 젖을 수 있음을 인지하고, 이에 자발적으로 참가합니다.</span>
+        </label>
+        <label class="agree-item">
+          <input type="checkbox" class="agree-check" id="agree3">
+          <span class="agree-box"></span>
+          <span class="agree-text">행사 중 <strong>안전 규칙을 준수</strong>하며, 타인에게 피해를 주는 행동을 하지 않겠습니다.</span>
+        </label>
+        <label class="agree-item">
+          <input type="checkbox" class="agree-check" id="agree4">
+          <span class="agree-box"></span>
+          <span class="agree-text">행사 중 촬영된 사진·영상이 <strong>학교 홍보 및 교육 목적</strong>으로 활용될 수 있음에 동의합니다.</span>
+        </label>
+      </div>
+
+      <div class="error-msg" id="err-agree">모든 항목에 동의해야 참가 신청이 가능합니다.</div>
+    </div>
+
+    <!-- 학생 정보 -->
+    <div class="card">
+      <div class="card-title">학생 정보</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label" for="grade">학년·반</label>
+          <input type="text" id="grade" class="form-input" placeholder="예) 2학년 3반">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="number">번호</label>
+          <input type="text" id="number" class="form-input" placeholder="예) 15">
+        </div>
+        <div class="form-group full">
+          <label class="form-label" for="name">이름</label>
+          <input type="text" id="name" class="form-input" placeholder="본인 이름 입력">
+        </div>
+      </div>
+      <div class="error-msg" id="err-info">학년·반, 번호, 이름을 모두 입력해 주세요.</div>
+    </div>
+
+    <!-- 전자서명 -->
+    <div class="card">
+      <div class="card-title">전자서명</div>
+      <p style="font-size:13px; color:var(--gray-600); margin-bottom:12px; line-height:1.6;">
+        아래 서명란에 손가락 또는 마우스로 본인의 서명을 작성해 주세요.
+      </p>
+      <div class="sig-area">
+        <canvas id="sig-canvas"></canvas>
+        <div class="sig-placeholder" id="sig-placeholder">
+          <span class="icon">✍️</span>
+          <span>여기에 서명하세요</span>
+        </div>
+        <button class="sig-clear-btn" onclick="clearSignature()">지우기</button>
+      </div>
+      <div class="error-msg" id="err-sig">서명을 작성해 주세요.</div>
+    </div>
+
+    <button class="submit-btn" onclick="submitForm()">✅ 동의하고 참가 신청하기</button>
+
+  </div><!-- /form-area -->
+</div><!-- /container -->
+
+<script>
+  // ── Google Apps Script 웹앱 URL (배포 후 여기에 붙여넣기) ──
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw83rPMDK0XHLtstQNCfn5VEwGo-KCtwsgVWp2mUrJ2PKJeJu2ukrFnDoFM7moQV-l2/exec';
+
+  // ── 전체 동의 연동 ──
+  const agreeAll = document.getElementById('agree-all');
+  const checks = document.querySelectorAll('.agree-check');
+
+  agreeAll.addEventListener('change', () => {
+    checks.forEach(c => c.checked = agreeAll.checked);
+  });
+  checks.forEach(c => c.addEventListener('change', () => {
+    agreeAll.checked = [...checks].every(c => c.checked);
+  }));
+
+  // ── 서명 패드 ──
+  const canvas = document.getElementById('sig-canvas');
+  const ctx = canvas.getContext('2d');
+  const placeholder = document.getElementById('sig-placeholder');
+  let drawing = false;
+  let hasSigned = false;
+
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    ctx.strokeStyle = '#1a1a2e';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const src = e.touches ? e.touches[0] : e;
+    return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+  }
+  function startDraw(e) {
+    e.preventDefault();
+    drawing = true;
+    const p = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+  }
+  function draw(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const p = getPos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    if (!hasSigned) {
+      hasSigned = true;
+      placeholder.style.opacity = '0';
+    }
+  }
+  function endDraw() { drawing = false; }
+
+  canvas.addEventListener('mousedown', startDraw);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  canvas.addEventListener('touchmove', draw, { passive: false });
+  canvas.addEventListener('touchend', endDraw);
+
+  function clearSignature() {
+    const rect = canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    hasSigned = false;
+    placeholder.style.opacity = '1';
+  }
+
+  // ── 제출 ──
+  function submitForm() {
+    const grade = document.getElementById('grade').value.trim();
+    const number = document.getElementById('number').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const allChecked = [...checks].every(c => c.checked);
+
+    // 오류 초기화
+    document.getElementById('err-agree').style.display = 'none';
+    document.getElementById('err-info').style.display = 'none';
+    document.getElementById('err-sig').style.display = 'none';
+
+    let valid = true;
+
+    if (!allChecked) {
+      document.getElementById('err-agree').style.display = 'block';
+      valid = false;
+    }
+    if (!grade || !number || !name) {
+      document.getElementById('err-info').style.display = 'block';
+      valid = false;
+    }
+    if (!hasSigned) {
+      document.getElementById('err-sig').style.display = 'block';
+      valid = false;
+    }
+    if (!valid) return;
+
+    const signatureData = canvas.toDataURL('image/png');
+    const btn = document.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    const payload = {
+      grade, number, name,
+      date: new Date().toLocaleDateString('ko-KR'),
+      time: new Date().toLocaleTimeString('ko-KR'),
+      signature: signatureData
+    };
+
+    fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      document.getElementById('form-area').style.display = 'none';
+      document.getElementById('success-area').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }).catch(() => {
+      alert('제출 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+      btn.disabled = false;
+      btn.textContent = '✅ 동의하고 참가 신청하기';
+    });
+  }
+</script>
+</body>
+</html>
