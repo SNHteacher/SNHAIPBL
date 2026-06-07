@@ -372,6 +372,80 @@
     color: var(--blue-bright);
   }
 
+  /* ── 대기 화면 ── */
+  #waiting-area {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .waiting-icon {
+    font-size: 56px;
+    margin-bottom: 20px;
+    display: block;
+    animation: float 2s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .waiting-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 24px;
+    color: var(--blue-deep);
+    margin-bottom: 12px;
+  }
+  .waiting-desc {
+    font-size: 14px;
+    color: var(--gray-600);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+  .countdown-box {
+    display: inline-flex;
+    gap: 12px;
+    background: var(--blue-pale);
+    border-radius: var(--radius);
+    padding: 20px 28px;
+    border: 1px solid var(--blue-light);
+    margin-bottom: 16px;
+  }
+  .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .countdown-num {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 36px;
+    color: var(--blue-mid);
+    line-height: 1;
+    min-width: 52px;
+    text-align: center;
+  }
+  .countdown-label {
+    font-size: 11px;
+    color: var(--gray-600);
+    letter-spacing: 0.05em;
+  }
+  .countdown-sep {
+    font-size: 32px;
+    color: var(--blue-light);
+    font-weight: 700;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+  .open-time-badge {
+    display: inline-block;
+    background: var(--blue-mid);
+    color: white;
+    border-radius: 999px;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
   /* ── 반응형 ── */
   @media (max-width: 480px) {
     .form-grid { grid-template-columns: 1fr; }
@@ -391,6 +465,38 @@
 </div>
 
 <div class="container">
+
+  <!-- 대기 화면 -->
+  <div id="waiting-area">
+    <span class="waiting-icon">💧</span>
+    <div class="waiting-title">참가 신청 준비 중</div>
+    <p class="waiting-desc">
+      참가할 준비가 되셨나요!?<br>곧 참가 신청이 시작됩니다!
+    </p>
+    <div class="countdown-box">
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-days">--</span>
+        <span class="countdown-label">일</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-hours">--</span>
+        <span class="countdown-label">시간</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-mins">--</span>
+        <span class="countdown-label">분</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-secs">--</span>
+        <span class="countdown-label">초</span>
+      </div>
+    </div>
+    <br>
+    <span class="open-time-badge">🕕 6월 11일(목) 18:00 오픈</span>
+  </div>
 
   <!-- 완료 화면 -->
   <div id="success-area">
@@ -511,7 +617,43 @@
 </div><!-- /container -->
 
 <script>
-  // ── Google Apps Script 웹앱 URL (배포 후 여기에 붙여넣기) ──
+  // ── 시간 제한: 2026년 6월 11일 18:00 오픈 ──
+  const OPEN_TIME = new Date('2026-06-11T18:00:00+09:00').getTime();
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function checkOpenTime() {
+    const now = Date.now();
+    const diff = OPEN_TIME - now;
+
+    if (diff <= 0) {
+      // 오픈 시간 도달 → 폼 표시
+      document.getElementById('waiting-area').style.display = 'none';
+      document.getElementById('form-area').style.display = 'block';
+      clearInterval(countdownTimer);
+      return;
+    }
+
+    // 카운트다운 표시
+    document.getElementById('waiting-area').style.display = 'block';
+    document.getElementById('form-area').style.display = 'none';
+
+    const totalSecs = Math.floor(diff / 1000);
+    const days  = Math.floor(totalSecs / 86400);
+    const hours = Math.floor((totalSecs % 86400) / 3600);
+    const mins  = Math.floor((totalSecs % 3600) / 60);
+    const secs  = totalSecs % 60;
+
+    document.getElementById('cd-days').textContent  = pad(days);
+    document.getElementById('cd-hours').textContent = pad(hours);
+    document.getElementById('cd-mins').textContent  = pad(mins);
+    document.getElementById('cd-secs').textContent  = pad(secs);
+  }
+
+  checkOpenTime();
+  const countdownTimer = setInterval(checkOpenTime, 1000);
+
+  // ── Google Apps Script 웹앱 URL ──
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw83rPMDK0XHLtstQNCfn5VEwGo-KCtwsgVWp2mUrJ2PKJeJu2ukrFnDoFM7moQV-l2/exec';
 
   // ── 전체 동의 연동 ──
@@ -643,4 +785,3 @@
 </script>
 </body>
 </html>
- 
